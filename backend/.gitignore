@@ -1,6 +1,7 @@
+# Ignore virtual environments
 venv/
-.env/
+backend/venv/
 __pycache__/
-*.pyc
-venv/Lib
-venv/Scrpits
+*.pyd
+*.dll
+*.h5
