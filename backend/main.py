@@ -17,16 +17,20 @@ app.add_middleware(
 )
 
 # Load the trained model
-model = tf.keras.models.load_model("ai-model/garbage_classifier_finetuned.keras")
+model = tf.keras.models.load_model("ai-model/e_waste_model.keras")
 
 # Define class labels (update these with your actual class names)
 CLASS_NAMES = [
-    "Plastic",  # 0
-    "Metal",    # 1
-    "Glass",    # 2
-    "Paper",    # 3
-    "Organic Waste",  # 4
-    "Other Waste",    # 5
+    "Battery",
+    "Keyboard",
+    "Microwave",
+    "Mobile",
+    "Mouse",
+    "PCB",
+    "Player",
+    "Printer",
+    "Television",
+    "Washing Machine" 
 ]
 
 # Preprocess image to match model's input requirements

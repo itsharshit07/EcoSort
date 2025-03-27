@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 
 # Load the Keras model
-model_path = "ai-model/garbage_classifier_finetuned.keras"
+model_path = "ai-model/e_waste_model.keras"
 model = tf.keras.models.load_model(model_path)
 
 def make_prediction(input_data):
