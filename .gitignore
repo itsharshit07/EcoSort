@@ -1,2 +1,7 @@
-.env
-venv/
+# Ignore virtual environments
+backend/venv/
+__pycache__/
+*.pyd
+*.dll
+*.h5
+site-packagesC:\Users\golah\OneDrive\Desktop\EcoSort\backend\venv\Lib\site-packages\tensorflow\python\_pywrap_tensorflow_internal.lib

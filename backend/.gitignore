@@ -1,7 +1,7 @@
 # Ignore virtual environments
-venv/
 backend/venv/
 __pycache__/
 *.pyd
 *.dll
 *.h5
+site-packages
