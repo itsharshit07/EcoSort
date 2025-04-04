@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
@@ -30,8 +30,9 @@ CLASS_NAMES = [
     "Player",
     "Printer",
     "Television",
-    "Washing Machine" 
+    "Washing Machine",
 ]
+
 
 # Preprocess image to match model's input requirements
 def preprocess_image(image: Image.Image):
@@ -40,8 +41,13 @@ def preprocess_image(image: Image.Image):
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     return img_array
 
+
 @app.post("/predict/")
-async def predict(file: UploadFile = File(...)):
+async def predict(
+    file: UploadFile = File(...),
+    weight: float = Form(...),  # Receive weight from form data
+    location: str = Form(...),  # Receive location from form data
+):
     try:
         # Open image using PIL
         image = Image.open(file.file)
@@ -57,14 +63,19 @@ async def predict(file: UploadFile = File(...)):
         # Get the class name based on the predicted index
         waste_type = CLASS_NAMES[predicted_class_index]
 
-        # Return response with waste type and confidence percentage
+        # Return response with waste type, confidence, weight, and location
         return JSONResponse(
             content={
                 "waste_type": waste_type,
                 "confidence": round(confidence, 2),  # Round confidence to 2 decimal places
+                "weight": weight,
+                "location": location,
             }
         )
 
     except Exception as e:
         # Return error if something goes wrong
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+        return JSONResponse(
+            content={"error": f"Prediction failed: {str(e)}"},
+            status_code=500,
+        )
