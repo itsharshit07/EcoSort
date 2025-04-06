@@ -1,9 +1,8 @@
 'use client';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import { FiHome, FiUser, FiSettings, FiAward, FiLogOut, FiFileText, FiTrash2, FiTrendingUp } from 'react-icons/fi';
+import { FiHome, FiUser, FiSettings, FiAward, FiLogOut, FiFileText, FiTrendingUp } from 'react-icons/fi';
 
 const Sidebar = () => {
   const router = useRouter();

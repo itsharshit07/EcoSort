@@ -51,7 +51,7 @@ export default function ConfirmPickupPage() {
     };
     fetchWaste();
   }, [wasteId]);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (e: any) => {
     setPickupData({ ...pickupData, [e.target.name]: e.target.value });
   };

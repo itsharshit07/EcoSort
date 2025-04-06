@@ -23,7 +23,8 @@ export const predictWaste = async (formData: FormData) => {
     } else {
       throw new Error("Unexpected response format or empty data.");
     }
-  } catch (error: any) {
+  }// eslint-disable-next-line @typescript-eslint/no-explicit-any 
+  catch (error: any) {
     console.error("Error predicting waste:", error?.response?.data || error.message);
     throw error;
   }

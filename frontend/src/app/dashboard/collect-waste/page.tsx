@@ -9,9 +9,9 @@ import {
   FaUser, FaBox, FaMap
 } from "react-icons/fa";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { sendNotification } from '@/lib/sendNotification';
 
 const CollectWaste = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [wasteItems, setWasteItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');

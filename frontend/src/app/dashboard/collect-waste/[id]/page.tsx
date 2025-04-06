@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation'; // 🟢 Added useRouter
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import Sidebar from '@/app/dashboard/components/sidebar';
 
 const WasteDetails = () => {
   const { id } = useParams(); // Get waste item ID from URL
   const router = useRouter(); // 🟢 Router for navigation
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [wasteDetails, setWasteDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
