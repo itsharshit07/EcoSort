@@ -1,10 +1,13 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect  } from "react";
 import { useDropzone } from "react-dropzone";
 import { predictWaste } from "@/lib/api";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "@/lib/firebase";
 import Sidebar from "../components/sidebar";
+import { sendNotification } from "@/lib/sendNotification"; 
+import { updateUserRewards } from "@/lib/rewards";
 
 export default function ReportWaste() {
   const [file, setFile] = useState<File | null>(null);
@@ -12,6 +15,7 @@ export default function ReportWaste() {
   const [confidence, setConfidence] = useState<number | null>(null);
   const [weight, setWeight] = useState<number | null>(null);
   const [location, setLocation] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   // New State for Additional Fields
   const [userName, setUserName] = useState<string>("");
@@ -23,6 +27,18 @@ export default function ReportWaste() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+      }
+    });
+  
+    return () => unsubscribe(); // Clean up on unmount
+  }, []);
+  
+
   const wasteCategories = [
     "Battery",
     "Keyboard",
@@ -113,6 +129,7 @@ export default function ReportWaste() {
       setConfidence(result.confidence);
       await addDoc(collection(db, "wasteReports"), {
         userName,
+        userEmail,
         productAge,
         brandName,
         condition,
@@ -124,7 +141,13 @@ export default function ReportWaste() {
         date: Timestamp.now(),
         imageUrl: file ? URL.createObjectURL(file) : "",
       });
-  
+
+      await sendNotification(
+        userEmail!,
+        `Thanks ${userName}, your ${result.waste_type} waste report has been submitted and your ECO points will be credited to your account shortly`
+      );
+      await updateUserRewards(userEmail!, 10);
+     
       setSuccess("Waste reported successfully! 🎉");
   
     } catch (error: any) {

@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation'; // 🟢 Added useRouter
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import Sidebar from '@/app/dashboard/components/sidebar';
 
 const WasteDetails = () => {
   const { id } = useParams(); // Get waste item ID from URL
+  const router = useRouter(); // 🟢 Router for navigation
   const [wasteDetails, setWasteDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -68,8 +69,11 @@ const WasteDetails = () => {
             />
           )}
 
-          {/* Button for further actions */}
-          <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          {/* ✅ Modified Confirm Pickup Button */}
+          <button
+            className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            onClick={() => router.push(`/confirm-pickup?id=${id}`)}
+          >
             Confirm Pickup
           </button>
         </div>
